@@ -11,6 +11,13 @@ use axum::{
 #[derive(PartialEq)]
 pub struct Token(String);
 
+impl Token {
+    /// Get the token's value.
+    pub fn value(&self) -> &str {
+        &self.0
+    }
+}
+
 impl core::fmt::Debug for Token {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         // Standard debug format but with literal value redacted.
