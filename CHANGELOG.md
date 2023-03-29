@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.2.0](https://github.com/cdriehuys/axum-jwks/compare/v0.1.2...v0.2.0) (2023-03-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* Rename to `axum-jwks`.
+
+### Miscellaneous Chores
+
+* Override release version. ([357f1cc](https://github.com/cdriehuys/axum-jwks/commit/357f1cc3b8d43dcb7634c236de4eba35aa2cbeef))
+* Rename to `axum-jwks`. ([72be46a](https://github.com/cdriehuys/axum-jwks/commit/72be46ab34ef75e244d4224794f536de79f3e6c6))
+
 ## [0.1.2](https://github.com/cdriehuys/auth0-axum/compare/v0.1.1...v0.1.2) (2023-03-29)
 
 
