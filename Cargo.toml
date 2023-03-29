@@ -3,6 +3,13 @@ name = "auth0-axum"
 version = "0.1.1"
 edition = "2021"
 resolver = "2"
+license-file = "LICENSE"
+readme = "README.md"
+description = "Verify JWTs from a JWKS in Axum"
+homepage = "https://github.com/cdriehuys/auth0-axum"
+repository = "https://github.com/cdriehuys/auth0-axum"
+documentation = "https://docs.rs/auth0-axum"
+keywords = ["axum", "jwk", "jwks", "jwt"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
