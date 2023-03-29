@@ -29,5 +29,5 @@ jobs:
           override: true
         if: ${{ steps.release.outputs.release_created }}
 
-      - run: cargo publish --token ${{ secrets.CRATE_TOKEN }}
+      - run: cargo publish --token ${{ secrets.CRATES_TOKEN }}
         if: ${{ steps.release.outputs.release_created }}
