@@ -15,6 +15,7 @@ use crate::TokenError;
 ///
 /// The container can be used to validate any JWT that identifies a known key
 /// through the `kid` attribute in the token's header.
+#[derive(Clone)]
 pub struct Jwks {
     keys: HashMap<String, Jwk>,
 }
@@ -108,6 +109,7 @@ impl Jwks {
     }
 }
 
+#[derive(Clone)]
 struct Jwk {
     decoding: DecodingKey,
     validation: Validation,
