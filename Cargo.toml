@@ -1,14 +1,14 @@
 [package]
-name = "auth0-axum"
+name = "axum-jwks"
 version = "0.1.2"
 edition = "2021"
 resolver = "2"
 license-file = "LICENSE"
 readme = "README.md"
-description = "Verify JWTs from a JWKS in Axum"
-homepage = "https://github.com/cdriehuys/auth0-axum"
-repository = "https://github.com/cdriehuys/auth0-axum"
-documentation = "https://docs.rs/auth0-axum"
+description = "Use a JSON Web Key Set (JWKS) to verify JWTs in Axum."
+homepage = "https://github.com/cdriehuys/axum-jwks"
+repository = "https://github.com/cdriehuys/axum-jwks"
+documentation = "https://docs.rs/axum-jwks"
 keywords = ["axum", "jwk", "jwks", "jwt"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
