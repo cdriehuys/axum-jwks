@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1](https://github.com/cdriehuys/auth0-axum/compare/v0.1.0...v0.1.1) (2023-03-29)
+
+
+### Bug Fixes
+
+* Fix typo in publish logic. ([f1804b3](https://github.com/cdriehuys/auth0-axum/commit/f1804b31cfcb4ae587f2be000d24fb099efe4930))
+
 ## 0.1.0 (2023-03-29)
 
 
