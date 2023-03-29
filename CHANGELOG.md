@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/cdriehuys/auth0-axum/compare/v0.1.1...v0.1.2) (2023-03-29)
+
+
+### Bug Fixes
+
+* Add required packaging information. ([3cd50c5](https://github.com/cdriehuys/auth0-axum/commit/3cd50c52b263caa7215e6031924d9a3531ba3030))
+
 ## [0.1.1](https://github.com/cdriehuys/auth0-axum/compare/v0.1.0...v0.1.1) (2023-03-29)
 
 
