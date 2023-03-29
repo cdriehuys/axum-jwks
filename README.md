@@ -1,3 +1,3 @@
-# auth0-axum
+# axum-jwks
 
-An unofficial repository for verifying Auth0 JWTs in Axum.
+Use a JSON Web Key Set (JWKS) to verify JWTs in Axum.
