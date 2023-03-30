@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.3.0](https://github.com/cdriehuys/axum-jwks/compare/v0.2.0...v0.3.0) (2023-03-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* Validate audience claim from tokens.
+
+### Features
+
+* Validate audience claim from tokens. ([4cb607f](https://github.com/cdriehuys/axum-jwks/commit/4cb607f1792dd4b94571a48a04d2572155df3697))
+
+
+### Miscellaneous Chores
+
+* Release 0.3.0 ([aefbfa6](https://github.com/cdriehuys/axum-jwks/commit/aefbfa6526e1bd891fd329d49831e84c7b8c4944))
+* Release 0.3.0 ([b4bd52f](https://github.com/cdriehuys/axum-jwks/commit/b4bd52f6f49ef96cbf2967c89e75ec05e4a08086))
+
 ## [0.2.0](https://github.com/cdriehuys/axum-jwks/compare/v0.1.2...v0.2.0) (2023-03-29)
 
 
