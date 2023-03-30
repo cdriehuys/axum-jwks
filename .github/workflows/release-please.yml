@@ -16,6 +16,7 @@ jobs:
       - uses: google-github-actions/release-please-action@v3
         id: release
         with:
+          bump-minor-pre-major: true
           release-type: rust
           package-name: auth0-axum
 
