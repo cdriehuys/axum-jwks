@@ -26,12 +26,14 @@ impl Jwks {
     /// # Arguments
     /// * `authority` - The base domain that will be issuing keys. The JWKS info
     ///   is pulled from `{authority}/.well-known/jwks.json`.
+    /// * `audience` - The identifier of the consumer of the JWT. This will be
+    ///   matched against the `aud` claim from the token.
     ///
     /// # Return Value
     /// The information needed to decode JWTs using any of the keys specified in
     /// the authority's JWKS.
-    pub async fn from_authority(authority: &str) -> Result<Self, JwksError> {
-        Self::from_authority_with_client(&reqwest::Client::default(), authority).await
+    pub async fn from_authority(authority: &str, audience: String) -> Result<Self, JwksError> {
+        Self::from_authority_with_client(&reqwest::Client::default(), authority, audience).await
     }
 
     /// A version of [`from_authority`][Self::from_authority] that allows for passing in a custom
@@ -39,6 +41,7 @@ impl Jwks {
     pub async fn from_authority_with_client(
         client: &reqwest::Client,
         authority: &str,
+        audience: String,
     ) -> Result<Self, JwksError> {
         let jwks_url = format!("{}/.well-known/jwks.json", authority);
         debug!(%authority, %jwks_url, "Fetching JSON Web Key Set.");
@@ -63,11 +66,12 @@ impl Jwks {
                                 error: err,
                             }
                         })?;
-                    let validation = Validation::new(jwk.common.algorithm.ok_or(
+                    let mut validation = Validation::new(jwk.common.algorithm.ok_or(
                         JwkError::MissingAlgorithm {
                             key_id: kid.clone(),
                         },
                     )?);
+                    validation.set_audience(&[audience.clone()]);
 
                     keys.insert(
                         kid,
