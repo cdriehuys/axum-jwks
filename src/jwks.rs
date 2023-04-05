@@ -98,16 +98,29 @@ impl Jwks {
     where
         T: DeserializeOwned,
     {
-        let header = decode_header(token).map_err(TokenError::InvalidHeader)?;
-        let kid = header.kid.ok_or(TokenError::MissingKeyId)?;
+        let header = decode_header(token).map_err(|error| {
+            debug!(?error, "Received token with invalid header.");
 
-        let key = self
-            .keys
-            .get(&kid)
-            .ok_or_else(|| TokenError::UnknownKeyId(kid))?;
+            TokenError::InvalidHeader(error)
+        })?;
+        let kid = header.kid.as_ref().ok_or_else(|| {
+            debug!(?header, "Header is missing the `kid` attribute.");
+
+            TokenError::MissingKeyId
+        })?;
+
+        let key = self.keys.get(kid).ok_or_else(|| {
+            debug!(%kid, "Token refers to an unknown key.");
+
+            TokenError::UnknownKeyId(kid.to_owned())
+        })?;
 
         let decoded_token: TokenData<T> =
-            decode(token, &key.decoding, &key.validation).map_err(TokenError::Invalid)?;
+            decode(token, &key.decoding, &key.validation).map_err(|error| {
+                debug!(?error, "Token is malformed or does not pass validation.");
+
+                TokenError::Invalid(error)
+            })?;
 
         Ok(decoded_token)
     }
