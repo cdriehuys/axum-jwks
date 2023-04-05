@@ -36,8 +36,8 @@ impl Jwks {
         Self::from_authority_with_client(&reqwest::Client::default(), authority, audience).await
     }
 
-    /// A version of [`from_authority`][Self::from_authority] that allows for passing in a custom
-    /// [`Client`][reqwest::Client].
+    /// A version of [`from_authority`][Self::from_authority] that allows for
+    /// passing in a custom [`Client`][reqwest::Client].
     pub async fn from_authority_with_client(
         client: &reqwest::Client,
         authority: &str,
