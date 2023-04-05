@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.4.0](https://github.com/cdriehuys/axum-jwks/compare/v0.3.0...v0.4.0) (2023-04-05)
+
+
+### Features
+
+* Add trait to handle `FromRequestParts` ([44997aa](https://github.com/cdriehuys/axum-jwks/commit/44997aae1e492ad25bb1b488aa55b783a6e847a9))
+
+
+### Documentation
+
+* Add usage example ([23800eb](https://github.com/cdriehuys/axum-jwks/commit/23800eb658f8ab5aa82e9558a28312ee19f00687))
+
+
+### Miscellaneous
+
+* Add debug tracing for token validation ([b345f5d](https://github.com/cdriehuys/axum-jwks/commit/b345f5da4f954c8feb92cc9771c5556ac03ff697))
+
 ## [0.3.0](https://github.com/cdriehuys/axum-jwks/compare/v0.2.0...v0.3.0) (2023-03-30)
 
 
