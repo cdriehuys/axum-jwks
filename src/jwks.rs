@@ -24,31 +24,28 @@ impl Jwks {
     /// Pull a JSON Web Key Set from a specific authority.
     ///
     /// # Arguments
-    /// * `authority` - The base domain that will be issuing keys. The JWKS info
-    ///   is pulled from `{authority}/.well-known/jwks.json`.
+    /// * `jwks_url` - The url which JWKS info is pulled from.
     /// * `audience` - The identifier of the consumer of the JWT. This will be
     ///   matched against the `aud` claim from the token.
     ///
     /// # Return Value
     /// The information needed to decode JWTs using any of the keys specified in
     /// the authority's JWKS.
-    pub async fn from_authority(authority: &str, audience: String) -> Result<Self, JwksError> {
-        Self::from_authority_with_client(&reqwest::Client::default(), authority, audience).await
+    pub async fn from_jwks_url(jwks_url: &str, audience: String) -> Result<Self, JwksError> {
+        Self::from_jwks_url_with_client(&reqwest::Client::default(), jwks_url, audience).await
     }
 
-    /// A version of [`from_authority`][Self::from_authority] that allows for
+    /// A version of [`from_jwks`][Self::from_jwks] that allows for
     /// passing in a custom [`Client`][reqwest::Client].
-    pub async fn from_authority_with_client(
+    pub async fn from_jwks_url_with_client(
         client: &reqwest::Client,
-        authority: &str,
+        jwks_url: &str,
         audience: String,
     ) -> Result<Self, JwksError> {
-        let jwks_url = format!("{}/.well-known/jwks.json", authority);
-        debug!(%authority, %jwks_url, "Fetching JSON Web Key Set.");
+        debug!(%jwks_url, "Fetching JSON Web Key Set.");
         let jwks: jwk::JwkSet = client.get(jwks_url).send().await?.json().await?;
-
         info!(
-            %authority,
+            %jwks_url,
             count = jwks.keys.len(),
             "Successfully pulled JSON Web Key Set."
         );
