@@ -1,11 +1,11 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, str::FromStr};
 
 use jsonwebtoken::{
     decode, decode_header,
     jwk::{self, AlgorithmParameters},
     DecodingKey, TokenData, Validation,
 };
-use serde::de::DeserializeOwned;
+use serde::{de::DeserializeOwned, Deserialize};
 use thiserror::Error;
 use tracing::{debug, info};
 
@@ -20,19 +20,65 @@ pub struct Jwks {
     keys: HashMap<String, Jwk>,
 }
 
+#[derive(Deserialize)]
+struct Oid {
+    jwks_uri: String,
+    id_token_signing_alg_values_supported: Option<Vec<String>>,
+}
+
 impl Jwks {
     /// Pull a JSON Web Key Set from a specific authority.
+
     ///
     /// # Arguments
-    /// * `jwks_url` - The url which JWKS info is pulled from.
+    /// * `oidc_url` - The url with Openid-configuration.
     /// * `audience` - The identifier of the consumer of the JWT. This will be
     ///   matched against the `aud` claim from the token.
     ///
     /// # Return Value
     /// The information needed to decode JWTs using any of the keys specified in
     /// the authority's JWKS.
-    pub async fn from_jwks_url(jwks_url: &str, audience: String) -> Result<Self, JwksError> {
-        Self::from_jwks_url_with_client(&reqwest::Client::default(), jwks_url, audience).await
+    pub async fn from_oidc_url(oidc_url: &str, audience: String) -> Result<Self, JwksError> {
+        Self::from_oidc_url_with_client(&reqwest::Client::default(), oidc_url, audience).await
+    }
+
+    /// A version of [`from_oidc`][Self::from_oidc] that allows for
+    /// passing in a custom [`Client`][reqwest::Client].
+    pub async fn from_oidc_url_with_client(
+        client: &reqwest::Client,
+        oidc_url: &str,
+        audience: String,
+    ) -> Result<Self, JwksError> {
+        debug!(%oidc_url, "Fetching openid-configuration.");
+        let oidc = client.get(oidc_url).send().await?.json::<Oid>().await?;
+        let jwks_uri = oidc.jwks_uri;
+        let alg = match &oidc.id_token_signing_alg_values_supported {
+            Some(algs) => match algs.first() {
+                Some(s) => Some(jsonwebtoken::Algorithm::from_str(s)?),
+                _ => None,
+            },
+            _ => None,
+        };
+
+        Self::from_jwks_url_with_client(&reqwest::Client::default(), &jwks_uri, audience, alg).await
+    }
+
+    ///
+    /// # Arguments
+    /// * `jwks_url` - The url which JWKS info is pulled from.
+    /// * `audience` - The identifier of the consumer of the JWT. This will be
+    ///   matched against the `aud` claim from the token.
+    /// * `alg` - The alg to use if not specified in JWK
+    ///
+    /// # Return Value
+    /// The information needed to decode JWTs using any of the keys specified in
+    /// the authority's JWKS.
+    pub async fn from_jwks_url(
+        jwks_url: &str,
+        audience: String,
+        alg: Option<jsonwebtoken::Algorithm>,
+    ) -> Result<Self, JwksError> {
+        Self::from_jwks_url_with_client(&reqwest::Client::default(), jwks_url, audience, alg).await
     }
 
     /// A version of [`from_jwks`][Self::from_jwks] that allows for
@@ -41,6 +87,7 @@ impl Jwks {
         client: &reqwest::Client,
         jwks_url: &str,
         audience: String,
+        alg: Option<jsonwebtoken::Algorithm>,
     ) -> Result<Self, JwksError> {
         debug!(%jwks_url, "Fetching JSON Web Key Set.");
         let jwks: jwk::JwkSet = client.get(jwks_url).send().await?.json().await?;
@@ -63,7 +110,7 @@ impl Jwks {
                                 error: err,
                             }
                         })?;
-                    let mut validation = Validation::new(jwk.common.algorithm.ok_or(
+                    let mut validation = Validation::new(jwk.common.algorithm.or(alg).ok_or(
                         JwkError::MissingAlgorithm {
                             key_id: kid.clone(),
                         },
@@ -132,14 +179,18 @@ struct Jwk {
 /// An error with the overall set of JSON Web Keys.
 #[derive(Debug, Error)]
 pub enum JwksError {
-    /// There was an error fetching the JWKS from the specified authority.
-    #[error("could not fetch JWKS from authority: {0}")]
+    /// There was an error fetching the OIDC or JWKS config from
+    /// the specified authority.
+    #[error("could not fetch config from authority: {0}")]
     FetchError(#[from] reqwest::Error),
 
     /// An error with an individual key caused the processing of the JWKS to
     /// fail.
     #[error("there was an error with an individual key: {0}")]
     KeyError(#[from] JwkError),
+
+    #[error("the provided algorithm from oidc is invalid or empty: {0}")]
+    InvalidAlgorithm(#[from] jsonwebtoken::errors::Error),
 }
 
 /// An error with a specific key from a JWKS.
