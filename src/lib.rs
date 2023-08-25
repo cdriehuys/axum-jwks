@@ -88,9 +88,11 @@
 //! ```
 
 mod claims;
+mod default_claims;
 mod jwks;
 mod token;
 
 pub use claims::{Claims, ParseTokenClaims};
+pub use default_claims::DefaultClaims;
 pub use jwks::{JwkError, Jwks, JwksError};
 pub use token::{Token, TokenError};
