@@ -71,9 +71,9 @@
 //! }
 //!
 //! async fn create_router() -> Router<AppState> {
-//!     let jwks = Jwks::from_authority(
+//!     let jwks = Jwks::from_oidc_url(
 //!         // The Authorization Server that signs the JWTs you want to consume.
-//!         "https://my-auth-server.example.com",
+//!         "https://my-auth-server.example.com/.well-known/openid-configuration",
 //!         // The audience identifier for the application. This ensures that
 //!         // JWTs are intended for this application.
 //!         "https://my-api-identifier.example.com/".to_owned(),
