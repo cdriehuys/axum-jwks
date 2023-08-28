@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.5.0](https://github.com/cdriehuys/axum-jwks/compare/v0.4.0...v0.5.0) (2023-08-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* Use oidc to get jwks etc
+* Require entire jwks url
+
+### Features
+
+* Require entire jwks url ([f9f02a8](https://github.com/cdriehuys/axum-jwks/commit/f9f02a8897c5d806b105ceed23a317401f1d35ab))
+* Use oidc to get jwks etc ([330a050](https://github.com/cdriehuys/axum-jwks/commit/330a050abf1ce42bf08edf74a97f529fcb259320))
+
+
+### Miscellaneous
+
+* Update README.md ([38a4d9c](https://github.com/cdriehuys/axum-jwks/commit/38a4d9c6461efa186a4654da49cf916e118910eb))
+
 ## [0.4.0](https://github.com/cdriehuys/axum-jwks/compare/v0.3.0...v0.4.0) (2023-04-05)
 
 
