@@ -8,7 +8,8 @@ Use a [JSON Web Key Set (JWKS)][jwks] to verify JWTs in [Axum][axum].
 
 # Features
 
-* Pull a JWKS from an Authorization Server
+* Use an openid-configuration to get the setup from the Authorization Server.
+* Pull a JWKS directly from an Authorization Server
 * Verify JWTs signed by any key in the JWKS and provided as a bearer token in
   the `Authorization` header
 
