@@ -4,11 +4,12 @@ use serde::{Deserialize, Serialize};
 
 use crate::{ParseTokenClaims, TokenError};
 
-// The specific claims you want to parse from received JWTs.
+/// Use this when only verifying the audience claim,
+/// and the endpoint do not need anything from the token
 #[derive(Deserialize, Serialize)]
-pub struct DefaultClaims {}
+pub struct EmptyClaims {}
 
-impl ParseTokenClaims for DefaultClaims {
+impl ParseTokenClaims for EmptyClaims {
     type Rejection = TokenClaimsError;
 }
 
