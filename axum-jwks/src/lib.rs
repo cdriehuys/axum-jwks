@@ -16,18 +16,24 @@
 //!     Json,
 //!     Router,
 //! };
-//! use axum_jwks::{Claims, Jwks, ParseTokenClaims, TokenError};
+//! use axum_jwks::{Claims,
+//!     KeyManager,
+//!     KeyManagerBuilder,
+//!     ParseTokenClaims,
+//!     TokenError,
+//! };
 //! use serde::{Deserialize, Serialize};
+//! use tokio::time::Duration;
 //!
 //! // The state available to all your route handlers.
 //! #[derive(Clone)]
 //! struct AppState {
-//!     jwks: Jwks,
+//!     key_manager: KeyManager,
 //! }
 //!
-//! impl FromRef<AppState> for Jwks {
+//! impl FromRef<AppState> for KeyManager {
 //!     fn from_ref(state: &AppState) -> Self {
-//!         state.jwks.clone()
+//!         state.key_manager.clone()
 //!     }
 //! }
 //!
@@ -72,26 +78,26 @@
 //! }
 //!
 //! async fn create_router() -> Router<AppState> {
-//!     let jwks = Jwks::from_oidc_url(
+//!     let key_manager = KeyManagerBuilder::new(
 //!         // The Authorization Server that signs the JWTs you want to consume.
-//!         "https://my-auth-server.example.com/.well-known/openid-configuration",
+//!         "https://my-auth-server.example.com/.well-known/openid-configuration".to_owned(),
 //!         // The audience identifier for the application. This ensures that
 //!         // JWTs are intended for this application.
 //!         "https://my-api-identifier.example.com/".to_owned(),
-//!     )
-//!         .await
-//!         .unwrap();
+//!     ).build().await.unwrap();
 //!
 //!     Router::new()
 //!         .route("/echo-claims", get(echo_claims))
-//!         .with_state(AppState { jwks })
+//!         .with_state(AppState { key_manager })
 //! }
 //! ```
 
 mod claims;
-mod jwks;
+mod key_manager;
+mod key_store;
 mod token;
 
 pub use claims::{Claims, ParseTokenClaims};
-pub use jwks::{JwkError, Jwks, JwksError};
+pub use key_manager::{KeyManager, KeyManagerBuilder};
+use key_store::KeyStore;
 pub use token::{Token, TokenError};
