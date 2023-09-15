@@ -1,0 +1,26 @@
+[package]
+name = "axum-jwks"
+version = "0.5.0"
+edition = "2021"
+resolver = "2"
+license = "MIT"
+readme = "README.md"
+description = "Use a JSON Web Key Set (JWKS) to verify JWTs in Axum."
+homepage = "https://github.com/cdriehuys/axum-jwks"
+repository = "https://github.com/cdriehuys/axum-jwks"
+documentation = "https://docs.rs/axum-jwks"
+keywords = ["axum", "jwk", "jwks", "jwt"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = { version = "0.6", features = ["headers"] }
+jsonwebtoken = { version = "8", default-features = false }
+reqwest = { version = "0.11", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+thiserror = { version = "1" }
+tracing = { version = "0.1" }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros"] }
+serde_json = { version = "1" }
