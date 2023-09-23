@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/cdriehuys/axum-jwks/compare/v0.5.0...v0.5.1) (2023-09-23)
+
+
+### Documentation
+
+* Fix broken links ([d912a15](https://github.com/cdriehuys/axum-jwks/commit/d912a15445d2a7f953dd4d359729abd4aaf68fad))
+
 ## [0.5.0](https://github.com/cdriehuys/axum-jwks/compare/v0.4.0...v0.5.0) (2023-08-28)
 
 
