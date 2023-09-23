@@ -42,7 +42,7 @@ impl Jwks {
         Self::from_oidc_url_with_client(&reqwest::Client::default(), oidc_url, audience).await
     }
 
-    /// A version of [`from_oidc`][Self::from_oidc] that allows for
+    /// A version of [`from_oidc_url`][Self::from_oidc_url] that allows for
     /// passing in a custom [`Client`][reqwest::Client].
     pub async fn from_oidc_url_with_client(
         client: &reqwest::Client,
@@ -81,7 +81,7 @@ impl Jwks {
         Self::from_jwks_url_with_client(&reqwest::Client::default(), jwks_url, audience, alg).await
     }
 
-    /// A version of [`from_jwks`][Self::from_jwks] that allows for
+    /// A version of [`from_jwks_url`][Self::from_jwks_url] that allows for
     /// passing in a custom [`Client`][reqwest::Client].
     pub async fn from_jwks_url_with_client(
         client: &reqwest::Client,
