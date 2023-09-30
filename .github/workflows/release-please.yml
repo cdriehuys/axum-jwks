@@ -20,6 +20,7 @@ jobs:
           path: axum-jwks
           release-type: rust
           package-name: axum-jwks
+          changelog-path: ../CHANGELOG.md
           changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"docs","section":"Documentation","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false}]'
 
       - uses: actions/checkout@v3
