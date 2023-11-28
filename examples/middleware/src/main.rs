@@ -2,6 +2,7 @@ use std::net::SocketAddr;
 
 use axum::{middleware, routing::get, Router};
 use axum_jwks::Jwks;
+use tokio::net::TcpListener;
 
 mod auth;
 
@@ -26,8 +27,8 @@ async fn main() {
         ))
         .with_state(state);
 
-    axum::Server::bind(&SocketAddr::from(([0, 0, 0, 0], 3000)))
-        .serve(router.into_make_service())
+    let tcp = TcpListener::bind(SocketAddr::from(([0, 0, 0, 0], 3000)))
         .await
         .unwrap();
+    axum::serve(tcp, router).await.unwrap();
 }

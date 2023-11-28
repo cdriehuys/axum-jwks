@@ -1,9 +1,11 @@
 use axum::{
-    extract::{FromRef, State},
-    headers::{authorization::Bearer, Authorization},
-    http::{Request, StatusCode},
+    extract::{FromRef, Request, State},
+    http::StatusCode,
     middleware::Next,
     response::{IntoResponse, Response},
+};
+use axum_extra::{
+    headers::{authorization::Bearer, Authorization},
     TypedHeader,
 };
 use axum_jwks::Jwks;
@@ -36,11 +38,11 @@ impl FromRef<AppState> for Jwks {
 /// Add fields to the `Claims` struct if more claims are required to be present.
 /// Add code in this function to do any validation of their vaules.
 ///
-pub async fn validate_token<B>(
+pub async fn validate_token(
     State(state): State<AppState>,
     TypedHeader(Authorization(bearer)): TypedHeader<Authorization<Bearer>>,
-    request: Request<B>,
-    next: Next<B>,
+    request: Request,
+    next: Next,
 ) -> Response {
     let jwks = Jwks::from_ref(&state);
 
