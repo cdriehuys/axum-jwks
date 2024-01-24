@@ -1,3 +1,7 @@
+#[cfg(feature = "axum_0_7")]
+use axum_0_7 as axum;
+
+#[cfg(feature = "axum_0_7")]
 use axum::{
     async_trait,
     extract::FromRequestParts,
@@ -5,10 +9,26 @@ use axum::{
     response::IntoResponse,
     RequestPartsExt,
 };
+
+#[cfg(feature = "axum_0_7")]
 use axum_extra::{
     headers::{authorization::Bearer, Authorization},
     TypedHeader,
 };
+
+#[cfg(feature = "axum_0_6")]
+use axum_0_6 as axum;
+
+#[cfg(feature = "axum_0_6")]
+use axum::{
+    async_trait,
+    extract::FromRequestParts,
+    headers::{authorization::Bearer, Authorization},
+    http::{request::Parts, StatusCode},
+    response::IntoResponse,
+    RequestPartsExt, TypedHeader,
+};
+
 use thiserror::Error;
 
 /// A JWT provided as a bearer token in an `Authorization` header.

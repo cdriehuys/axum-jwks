@@ -16,6 +16,11 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: check
+          args: --features axum_0_6
+      - uses: actions-rs/cargo@v1
+        with:
+          command: check
+          args: --features axum_0_7
 
   test:
     name: Test Suite
@@ -30,7 +35,11 @@ jobs:
       - uses: actions-rs/cargo@v1
         with:
           command: test
-
+          args: --features axum_0_6
+      - uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --features axum_0_7
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest

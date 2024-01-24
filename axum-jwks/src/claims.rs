@@ -1,3 +1,9 @@
+#[cfg(feature = "axum_0_7")]
+use axum_0_7 as axum;
+
+#[cfg(feature = "axum_0_6")]
+use axum_0_6 as axum;
+
 use axum::{
     async_trait,
     extract::{FromRef, FromRequestParts},

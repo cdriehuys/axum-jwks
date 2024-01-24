@@ -13,9 +13,16 @@ keywords = ["axum", "jwk", "jwks", "jwt"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+axum_0_6 = ["dep:axum_0_6"]
+axum_0_7 = ["dep:axum_0_7", "dep:axum-extra"]
+
 [dependencies]
-axum = "0.7"
-axum-extra = { version = "0.9.0", features = ["typed-header"] }
+axum_0_6 = { package = "axum", version = "0.6", features = [
+    "headers",
+], optional = true }
+axum_0_7 = { package = "axum", version = "0.7", optional = true }
+axum-extra = { version = "0.9", features = ["typed-header"], optional = true }
 jsonwebtoken = { version = "8", default-features = false }
 reqwest = { version = "0.11", features = ["json"] }
 serde = { version = "1", features = ["derive"] }

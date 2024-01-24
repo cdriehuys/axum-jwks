@@ -91,6 +91,12 @@ mod claims;
 mod jwks;
 mod token;
 
+#[cfg(all(feature = "axum_0_6", feature = "axum_0_7"))]
+compile_error!("axum_0_6 and axum_0_7 are mutually exclusive and cannot be enabled together");
+
+#[cfg(all(not(feature = "axum_0_6"), not(feature = "axum_0_7")))]
+compile_error!("One of axum_0_6 and axum_0_7 features has to be enabled");
+
 pub use claims::{Claims, ParseTokenClaims};
 pub use jwks::{JwkError, Jwks, JwksError};
 pub use token::{Token, TokenError};
