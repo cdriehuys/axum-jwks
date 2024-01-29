@@ -32,5 +32,5 @@ jobs:
           override: true
         if: ${{ steps.release.outputs.releases_created }}
 
-      - run: cargo publish --token ${{ secrets.CRATES_TOKEN }}
+      - run: cargo publish -p axum-jwks --token ${{ secrets.CRATES_TOKEN }}
         if: ${{ steps.release.outputs.releases_created }}

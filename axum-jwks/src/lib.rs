@@ -1,5 +1,6 @@
-#![doc = include_str!("../../README.md")]
-
+//! axum-jwks allows for easily verifying JWTs in an axum application using any
+//! key from a JSON Web Key Set (JWKS).
+//!
 //! # Usage
 //!
 //! Here's a minimal working example of how you would authenticate via JWTs in a
