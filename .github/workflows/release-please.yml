@@ -21,6 +21,7 @@ jobs:
           release-type: rust
           package-name: axum-jwks
           changelog-types: '[{"type":"feat","section":"Features","hidden":false},{"type":"fix","section":"Bug Fixes","hidden":false},{"type":"docs","section":"Documentation","hidden":false},{"type":"chore","section":"Miscellaneous","hidden":false}]'
+          token: "${{ secrets.RELEASE_PLEASE_TOKEN }}"
 
       - uses: actions/checkout@v3
         if: ${{ steps.release.outputs.releases_created }}
