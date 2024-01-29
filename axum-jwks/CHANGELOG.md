@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.6.0](https://github.com/cdriehuys/axum-jwks/compare/v0.5.0...v0.6.0) (2024-01-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* support axum 0.7 ([#28](https://github.com/cdriehuys/axum-jwks/issues/28))
+
+### Features
+
+* support axum 0.7 ([#28](https://github.com/cdriehuys/axum-jwks/issues/28)) ([c32943e](https://github.com/cdriehuys/axum-jwks/commit/c32943e9b8418699cf2f09353628b187fabe2dfc))
+
+
+### Miscellaneous
+
+* Added example for usage in a middleware ([b179b3d](https://github.com/cdriehuys/axum-jwks/commit/b179b3d95973243ed21df941325e732406309cdd))
+
 ## [0.5.0](https://github.com/cdriehuys/axum-jwks/compare/v0.4.0...v0.5.0) (2023-08-28)
 
 
