@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/cdriehuys/axum-jwks/compare/v0.6.1...v0.6.2) (2024-01-29)
+
+
+### Bug Fixes
+
+* Broken README link ([4a4bd92](https://github.com/cdriehuys/axum-jwks/commit/4a4bd922d67f1a72ccd5cecfdb19c7af86269e0f))
+
 ## [0.6.1](https://github.com/cdriehuys/axum-jwks/compare/v0.6.0...v0.6.1) (2024-01-29)
 
 
