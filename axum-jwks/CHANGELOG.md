@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/cdriehuys/axum-jwks/compare/v0.6.0...v0.6.1) (2024-01-29)
+
+
+### Bug Fixes
+
+* fix packaging due to sub-directory ([162522a](https://github.com/cdriehuys/axum-jwks/commit/162522ace37852d1f346f1a882d6dcebe0d5f5cf))
+
 ## [0.6.0](https://github.com/cdriehuys/axum-jwks/compare/v0.5.0...v0.6.0) (2024-01-29)
 
 
