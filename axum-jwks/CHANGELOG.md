@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0](https://github.com/cdriehuys/axum-jwks/compare/v0.6.2...v0.7.0) (2024-03-14)
+
+
+### Features
+
+* Allow for switching between native TLS and rustls ([70a100f](https://github.com/cdriehuys/axum-jwks/commit/70a100fb3802618571157ed244e0acdb623db2eb))
+
 ## [0.6.2](https://github.com/cdriehuys/axum-jwks/compare/v0.6.1...v0.6.2) (2024-01-29)
 
 
