@@ -8,7 +8,7 @@ use axum_extra::{
     headers::{authorization::Bearer, Authorization},
     TypedHeader,
 };
-use axum_jwks::Jwks;
+use axum_jwks::KeyManager;
 use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize)]
@@ -16,12 +16,12 @@ struct Claims {}
 
 #[derive(Clone)]
 pub struct AppState {
-    pub jwks: Jwks,
+    pub key_manager: KeyManager,
 }
 
-impl FromRef<AppState> for Jwks {
+impl FromRef<AppState> for KeyManager {
     fn from_ref(state: &AppState) -> Self {
-        state.jwks.clone()
+        state.key_manager.clone()
     }
 }
 
@@ -44,9 +44,13 @@ pub async fn validate_token(
     request: Request,
     next: Next,
 ) -> Response {
-    let jwks = Jwks::from_ref(&state);
+    let jwks = KeyManager::from_ref(&state);
 
-    if jwks.validate_claims::<Claims>(bearer.token()).is_err() {
+    if jwks
+        .validate_claims::<Claims>(bearer.token())
+        .await
+        .is_err()
+    {
         return StatusCode::UNAUTHORIZED.into_response();
     }
 

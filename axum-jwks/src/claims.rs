@@ -6,7 +6,7 @@ use axum::{
 };
 use serde::de::DeserializeOwned;
 
-use crate::{Jwks, Token, TokenError};
+use crate::{KeyManager, Token, TokenError};
 
 pub struct Claims<C: DeserializeOwned + ParseTokenClaims>(pub C);
 
@@ -82,16 +82,16 @@ pub trait ParseTokenClaims {
 impl<S, C> FromRequestParts<S> for Claims<C>
 where
     C: DeserializeOwned + ParseTokenClaims,
-    Jwks: FromRef<S>,
+    KeyManager: FromRef<S>,
     S: Send + Sync,
 {
     type Rejection = C::Rejection;
 
     async fn from_request_parts(parts: &mut Parts, state: &S) -> Result<Self, Self::Rejection> {
-        let jwks = Jwks::from_ref(state);
+        let key_manager = KeyManager::from_ref(state);
         let token = Token::from_request_parts(parts, state).await?;
 
-        let token_data = jwks.validate_claims(token.value())?;
+        let token_data = key_manager.validate_claims(token.value()).await?;
 
         Ok(Claims(token_data.claims))
     }
