@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.8.0](https://github.com/cdriehuys/axum-jwks/compare/v0.7.0...v0.8.0) (2024-08-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* Audience field is optional
+
+### Features
+
+* Audience field is optional ([b4061c1](https://github.com/cdriehuys/axum-jwks/commit/b4061c13d7e7b6922dfccd8f7e43ef51f36ffad7))
+
 ## [0.7.0](https://github.com/cdriehuys/axum-jwks/compare/v0.6.2...v0.7.0) (2024-03-14)
 
 
