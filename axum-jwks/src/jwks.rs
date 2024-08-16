@@ -38,7 +38,7 @@ impl Jwks {
     /// # Return Value
     /// The information needed to decode JWTs using any of the keys specified in
     /// the authority's JWKS.
-    pub async fn from_oidc_url(oidc_url: &str, audience: String) -> Result<Self, JwksError> {
+    pub async fn from_oidc_url(oidc_url: &str, audience: Option<&str>) -> Result<Self, JwksError> {
         Self::from_oidc_url_with_client(&reqwest::Client::default(), oidc_url, audience).await
     }
 
@@ -47,7 +47,7 @@ impl Jwks {
     pub async fn from_oidc_url_with_client(
         client: &reqwest::Client,
         oidc_url: &str,
-        audience: String,
+        audience: Option<&str>,
     ) -> Result<Self, JwksError> {
         debug!(%oidc_url, "Fetching openid-configuration.");
         let oidc = client.get(oidc_url).send().await?.json::<Oid>().await?;
@@ -75,7 +75,7 @@ impl Jwks {
     /// the authority's JWKS.
     pub async fn from_jwks_url(
         jwks_url: &str,
-        audience: String,
+        audience: Option<&str>,
         alg: Option<jsonwebtoken::Algorithm>,
     ) -> Result<Self, JwksError> {
         Self::from_jwks_url_with_client(&reqwest::Client::default(), jwks_url, audience, alg).await
@@ -86,7 +86,7 @@ impl Jwks {
     pub async fn from_jwks_url_with_client(
         client: &reqwest::Client,
         jwks_url: &str,
-        audience: String,
+        audience: Option<&str>,
         alg: Option<jsonwebtoken::Algorithm>,
     ) -> Result<Self, JwksError> {
         debug!(%jwks_url, "Fetching JSON Web Key Set.");
@@ -115,7 +115,9 @@ impl Jwks {
                             key_id: kid.clone(),
                         },
                     )?);
-                    validation.set_audience(&[audience.clone()]);
+                    if let Some(audience) = audience {
+                        validation.set_audience(&[audience.to_string()]);
+                    }
 
                     keys.insert(
                         kid,

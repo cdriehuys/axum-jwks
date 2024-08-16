@@ -77,7 +77,7 @@
 //!         "https://my-auth-server.example.com/.well-known/openid-configuration",
 //!         // The audience identifier for the application. This ensures that
 //!         // JWTs are intended for this application.
-//!         "https://my-api-identifier.example.com/".to_owned(),
+//!         Some("https://my-api-identifier.example.com/"),
 //!     )
 //!         .await
 //!         .unwrap();
