@@ -28,7 +28,6 @@ struct Oid {
 
 impl Jwks {
     /// Pull a JSON Web Key Set from a specific authority.
-
     ///
     /// # Arguments
     /// * `oidc_url` - The url with Openid-configuration.
