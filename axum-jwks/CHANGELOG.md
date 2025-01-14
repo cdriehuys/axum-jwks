@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/cdriehuys/axum-jwks/compare/v0.8.0...v0.9.0) (2025-01-14)
+
+
+### Features
+
+* Allow constructing a key set from externally fetched data ([#43](https://github.com/cdriehuys/axum-jwks/issues/43)) ([8fa931e](https://github.com/cdriehuys/axum-jwks/commit/8fa931e97df327ed5f60e4a40f7b41369a42809f))
+
 ## [0.8.0](https://github.com/cdriehuys/axum-jwks/compare/v0.7.0...v0.8.0) (2024-08-16)
 
 
