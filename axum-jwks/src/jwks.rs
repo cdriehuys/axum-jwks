@@ -28,7 +28,6 @@ struct Oid {
 
 impl Jwks {
     /// Pull a JSON Web Key Set from a specific authority.
-
     ///
     /// # Arguments
     /// * `oidc_url` - The url with Openid-configuration.
@@ -97,12 +96,30 @@ impl Jwks {
             "Successfully pulled JSON Web Key Set."
         );
 
+        Self::from_jwk_set(jwks, audience, alg)
+    }
+
+    ///
+    /// # Arguments
+    /// * `jwk_set` - The pre-fetched JWKs
+    /// * `audience` - The identifier of the consumer of the JWT. This will be
+    ///   matched against the `aud` claim from the token.
+    /// * `alg` - The alg to use if not specified in JWK
+    ///
+    /// # Return Value
+    /// The information needed to decode JWTs using any of the keys specified in
+    /// the authority's JWKS.
+    pub fn from_jwk_set(
+        jwk_set: jwk::JwkSet,
+        audience: Option<&str>,
+        alg: Option<jsonwebtoken::Algorithm>,
+    ) -> Result<Self, JwksError> {
         let mut keys = HashMap::new();
-        for jwk in jwks.keys {
+        for jwk in jwk_set.keys {
             let kid = jwk.common.key_id.ok_or(JwkError::MissingKeyId)?;
 
             match &jwk.algorithm {
-                jwk::AlgorithmParameters::RSA(rsa) => {
+                AlgorithmParameters::RSA(rsa) => {
                     let decoding_key =
                         DecodingKey::from_rsa_components(&rsa.n, &rsa.e).map_err(|err| {
                             JwkError::DecodingError {
