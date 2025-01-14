@@ -111,7 +111,7 @@ impl Jwks {
     /// The information needed to decode JWTs using any of the keys specified in
     /// the authority's JWKS.
     pub fn from_jwk_set(
-        jwk_set: &jwk::JwkSet,
+        jwk_set: jwk::JwkSet,
         audience: Option<&str>,
         alg: Option<jsonwebtoken::Algorithm>
     ) -> Result<Self, JwksError> {
