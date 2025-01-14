@@ -1,5 +1,4 @@
 use axum::{
-    async_trait,
     extract::{FromRef, FromRequestParts},
     http::request::Parts,
     response::IntoResponse,
@@ -78,7 +77,6 @@ pub trait ParseTokenClaims {
     type Rejection: IntoResponse + From<TokenError>;
 }
 
-#[async_trait]
 impl<S, C> FromRequestParts<S> for Claims<C>
 where
     C: DeserializeOwned + ParseTokenClaims,
