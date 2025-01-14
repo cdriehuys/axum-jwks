@@ -112,7 +112,7 @@ impl Jwks {
     pub fn from_jwk_set(
         jwk_set: jwk::JwkSet,
         audience: Option<&str>,
-        alg: Option<jsonwebtoken::Algorithm>
+        alg: Option<jsonwebtoken::Algorithm>,
     ) -> Result<Self, JwksError> {
         let mut keys = HashMap::new();
         for jwk in jwk_set.keys {
@@ -149,7 +149,7 @@ impl Jwks {
                         key_id: kid,
                         algorithm: other.to_owned(),
                     }
-                        .into())
+                    .into())
                 }
             }
         }
