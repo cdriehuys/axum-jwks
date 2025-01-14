@@ -97,7 +97,7 @@ impl Jwks {
             "Successfully pulled JSON Web Key Set."
         );
 
-        Self::from_jwk_set(&jwks, audience, alg).await
+        Self::from_jwk_set(jwks, audience, alg)
     }
 
     ///
