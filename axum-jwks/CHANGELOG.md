@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.10.0](https://github.com/cdriehuys/axum-jwks/compare/v0.9.0...v0.10.0) (2025-01-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* Drops support for axum versions prior to v0.8
+
+### Features
+
+* Support axum 0.8 ([#46](https://github.com/cdriehuys/axum-jwks/issues/46)) ([c8deed5](https://github.com/cdriehuys/axum-jwks/commit/c8deed57a3e571b556d43b3957fb42bdfa9dc379))
+
 ## [0.9.0](https://github.com/cdriehuys/axum-jwks/compare/v0.8.0...v0.9.0) (2025-01-14)
 
 
