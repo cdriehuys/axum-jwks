@@ -1,5 +1,4 @@
 use axum::{
-    async_trait,
     extract::FromRequestParts,
     http::{request::Parts, StatusCode},
     response::IntoResponse,
@@ -29,8 +28,10 @@ impl core::fmt::Debug for Token {
     }
 }
 
-#[async_trait]
-impl<S> FromRequestParts<S> for Token {
+impl<S> FromRequestParts<S> for Token
+where
+    S: Send + Sync,
+{
     type Rejection = TokenError;
 
     async fn from_request_parts(parts: &mut Parts, _state: &S) -> Result<Self, Self::Rejection> {
