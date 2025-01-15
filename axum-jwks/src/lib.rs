@@ -7,7 +7,6 @@
 //! route handler:
 //! ```no_run
 //! use axum::{
-//!     async_trait,
 //!     extract::{FromRef, FromRequestParts},
 //!     http::request::Parts,
 //!     http::status::StatusCode,
