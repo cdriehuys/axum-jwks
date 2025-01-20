@@ -7,7 +7,7 @@ use jsonwebtoken::{
 };
 use serde::{de::DeserializeOwned, Deserialize};
 use thiserror::Error;
-use tracing::{debug, info};
+use tracing::{debug, info, warn};
 
 use crate::TokenError;
 
@@ -116,41 +116,55 @@ impl Jwks {
     ) -> Result<Self, JwksError> {
         let mut keys = HashMap::new();
         for jwk in jwk_set.keys {
-            let kid = jwk.common.key_id.ok_or(JwkError::MissingKeyId)?;
+            if jwk.is_supported() {
+                let kid = jwk.common.key_id.ok_or(JwkError::MissingKeyId)?;
 
-            match &jwk.algorithm {
-                AlgorithmParameters::RSA(rsa) => {
-                    let decoding_key =
-                        DecodingKey::from_rsa_components(&rsa.n, &rsa.e).map_err(|err| {
-                            JwkError::DecodingError {
+                match &jwk.algorithm {
+                    AlgorithmParameters::RSA(rsa) => {
+                        let decoding_key = DecodingKey::from_rsa_components(&rsa.n, &rsa.e)
+                            .map_err(|err| JwkError::DecodingError {
                                 key_id: kid.clone(),
                                 error: err,
-                            }
-                        })?;
-                    let mut validation = Validation::new(jwk.common.algorithm.or(alg).ok_or(
-                        JwkError::MissingAlgorithm {
-                            key_id: kid.clone(),
-                        },
-                    )?);
-                    if let Some(audience) = audience {
-                        validation.set_audience(&[audience.to_string()]);
-                    }
+                            })?;
+                        let mut validation = Validation::new(
+                            jwk.common
+                                .key_algorithm
+                                .map(|key_algorithm| {
+                                    jsonwebtoken::Algorithm::from_str(
+                                        key_algorithm.to_string().as_str(),
+                                    )
+                                    .expect("Unsupported algorithm should not happen since the JWK was checked to be supported.")
+                                })
+                                .or(alg)
+                                .ok_or(JwkError::MissingAlgorithm {
+                                    key_id: kid.clone(),
+                                })?,
+                        );
+                        if let Some(audience) = audience {
+                            validation.set_audience(&[audience.to_string()]);
+                        }
 
-                    keys.insert(
-                        kid,
-                        Jwk {
-                            decoding: decoding_key,
-                            validation,
-                        },
-                    );
-                }
-                other => {
-                    return Err(JwkError::UnexpectedAlgorithm {
-                        key_id: kid,
-                        algorithm: other.to_owned(),
+                        keys.insert(
+                            kid,
+                            Jwk {
+                                decoding: decoding_key,
+                                validation,
+                            },
+                        );
                     }
-                    .into())
+                    other => {
+                        return Err(JwkError::UnexpectedAlgorithm {
+                            key_id: kid,
+                            algorithm: other.to_owned(),
+                        }
+                        .into())
+                    }
                 }
+            } else {
+                warn!(
+                    "JWK key algorithm {:?} is not supported. Tokens signed by that key will not be accepted.",
+                    jwk.common.key_algorithm
+                )
             }
         }
 
