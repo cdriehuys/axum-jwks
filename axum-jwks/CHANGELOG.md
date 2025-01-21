@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0](https://github.com/cdriehuys/axum-jwks/compare/v0.10.0...v0.11.0) (2025-01-21)
+
+
+### Features
+
+* Do not panic for unsupported algorithms ([#48](https://github.com/cdriehuys/axum-jwks/issues/48)) ([8a16978](https://github.com/cdriehuys/axum-jwks/commit/8a1697854b16b3c75a12a31ff667518b4c9bb467))
+
 ## [0.10.0](https://github.com/cdriehuys/axum-jwks/compare/v0.9.0...v0.10.0) (2025-01-15)
 
 
