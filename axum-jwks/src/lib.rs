@@ -86,6 +86,10 @@
 //!         .with_state(AppState { jwks })
 //! }
 //! ```
+//!
+//! # Unsupported algorithms
+//! In case a JWK uses an unsupported key algorithm this is logged as warning but otherwise ignored.
+//! Tokens signed by that key will *not* be valid.
 
 mod claims;
 mod jwks;
