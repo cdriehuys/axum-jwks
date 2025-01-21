@@ -142,6 +142,8 @@ impl Jwks {
                         );
                         if let Some(audience) = audience {
                             validation.set_audience(&[audience.to_string()]);
+                        } else {
+                            validation.validate_aud = false;
                         }
 
                         keys.insert(
