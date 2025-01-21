@@ -8,6 +8,7 @@ mod auth;
 
 #[tokio::main]
 async fn main() {
+    tracing_subscriber::fmt::init();
     let jwks = Jwks::from_oidc_url(
         // The Authorization Server that signs the JWTs you want to consume.
         "https://my-auth-server.example.com/.well-known/openid-configuration",
