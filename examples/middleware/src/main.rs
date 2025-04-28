@@ -2,6 +2,7 @@ use std::net::SocketAddr;
 
 use axum::{middleware, routing::get, Router};
 use axum_jwks::Jwks;
+use std::env;
 use tokio::net::TcpListener;
 
 mod auth;
@@ -11,10 +12,12 @@ async fn main() {
     tracing_subscriber::fmt::init();
     let jwks = Jwks::from_oidc_url(
         // The Authorization Server that signs the JWTs you want to consume.
-        "https://my-auth-server.example.com/.well-known/openid-configuration",
+        &env::var("AUTHSERVER").unwrap_or(
+            "https://my-auth-server.example.com/.well-known/openid-configuration".into(),
+        ),
         // The audience identifier for the application. This ensures that
         // JWTs are intended for this application.
-        Some("https://my-api-identifier.example.com/"),
+        Some(&env::var("AUDIENCE").unwrap_or("https://my-api-identifier.example.com/".into())),
     )
     .await
     .unwrap();
