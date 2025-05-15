@@ -2,7 +2,7 @@ use std::{collections::HashMap, str::FromStr};
 
 use jsonwebtoken::{
     decode, decode_header,
-    jwk::{self, AlgorithmParameters},
+    jwk::{self, AlgorithmParameters, KeyAlgorithm},
     DecodingKey, TokenData, Validation,
 };
 use serde::{de::DeserializeOwned, Deserialize};
@@ -115,8 +115,13 @@ impl Jwks {
         alg: Option<jsonwebtoken::Algorithm>,
     ) -> Result<Self, JwksError> {
         let mut keys = HashMap::new();
+        let to_supported_alg = |key_algorithm: Option<KeyAlgorithm>| match key_algorithm {
+            Some(key_alg) => jsonwebtoken::Algorithm::from_str(key_alg.to_string().as_str()).ok(),
+            _ => None,
+        };
+
         for jwk in jwk_set.keys {
-            if jwk.is_supported() {
+            if let Some(key_alg) = to_supported_alg(jwk.common.key_algorithm).or(alg) {
                 let kid = jwk.common.key_id.ok_or(JwkError::MissingKeyId)?;
 
                 match &jwk.algorithm {
@@ -126,20 +131,7 @@ impl Jwks {
                                 key_id: kid.clone(),
                                 error: err,
                             })?;
-                        let mut validation = Validation::new(
-                            jwk.common
-                                .key_algorithm
-                                .map(|key_algorithm| {
-                                    jsonwebtoken::Algorithm::from_str(
-                                        key_algorithm.to_string().as_str(),
-                                    )
-                                    .expect("Unsupported algorithm should not happen since the JWK was checked to be supported.")
-                                })
-                                .or(alg)
-                                .ok_or(JwkError::MissingAlgorithm {
-                                    key_id: kid.clone(),
-                                })?,
-                        );
+                        let mut validation = Validation::new(key_alg);
                         if let Some(audience) = audience {
                             validation.set_audience(&[audience.to_string()]);
                         } else {
