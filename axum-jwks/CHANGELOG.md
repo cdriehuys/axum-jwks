@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.0](https://github.com/cdriehuys/axum-jwks/compare/v0.11.0...v0.12.0) (2025-05-15)
+
+
+### Features
+
+* do not require jwk.common.key_algorithm ([#52](https://github.com/cdriehuys/axum-jwks/issues/52)) ([7a4c4be](https://github.com/cdriehuys/axum-jwks/commit/7a4c4be6335a5b408d0a6e6317ecdcc8ef362aae))
+
 ## [0.11.0](https://github.com/cdriehuys/axum-jwks/compare/v0.10.0...v0.11.0) (2025-01-21)
 
 
